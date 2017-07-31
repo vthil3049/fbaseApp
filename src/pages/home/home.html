@@ -7,8 +7,19 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-input #newname placeholder="Enter Name"></ion-input>
+  <button ion-button full (click)="setName(newname.value)">Set New Name</button>
+  <button ion-button full (click)="addTodo(newname.value)">Add a Todo</button>
+  Current name: {{(fbName | async)?.name}}
+  <br /><br /><br />
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of todos | async">
+      <ion-item>
+        {{item.text}}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button (click)="removeTodo(item.$key)">Delete</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
