@@ -13,11 +13,28 @@
       </button>
     </ion-buttons>
     <ion-title>Shopping List</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="editMode = !editMode">
+        <ion-icon name="reorder"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list *ngFor="let list of shoppingLists | async" padding-top>
+    <ion-list-header>
+      <button ion-button item-left clear color="danger" icon-only (click)="removeList(list.$key)" *ngIf="editMode">
+        <ion-icon name="remove-circle"></ion-icon>
+      </button>
+      {{list.name}}
+    </ion-list-header>
+  </ion-list>
+  <ion-fab right bottom padding>
+    <button ion-fab (click)="newList()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

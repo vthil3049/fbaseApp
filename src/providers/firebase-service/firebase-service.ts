@@ -44,4 +44,29 @@ export class FirebaseServiceProvider {
     return this.afAuth.auth.signOut();
   }
 
+  resetPassword(email)
+  {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
+  }
+
+  createNewList(name){
+    return this.afd.list('/shoppingLists').push({
+      name: name, 
+      creator: this.user.email 
+    });
+  }
+
+  getUserLists(){
+    return this.afd.list('/shoppingLists',{
+      query: {
+        orderByChild: 'creator',
+        equalTo: this.user.email 
+      }
+    });
+  }
+
+  removeList(id){
+    this.afd.list('/shoppingLists').remove(id);
+    
+  }
 }
