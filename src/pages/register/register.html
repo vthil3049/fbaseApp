@@ -1,0 +1,37 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Create Account</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+  <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
+    <ion-item padding>
+      <ion-label floating>Name</ion-label>
+      <ion-input formControlName="name" type="text" [class.invalid]="!signupForm.controls.name.valid && signupForm.controls.name.dirty"></ion-input>
+    </ion-item>
+    <ion-item  class="error-message" *ngIf="!signupForm.controls.name.valid && signupForm.controls.name.dirty" no-lines>
+      <p>Please provide a name</p>
+    </ion-item>
+
+    <ion-item padding>
+      <ion-label floating>Email</ion-label>
+      <ion-input formControlName="email" type="email" [class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty"></ion-input>
+    </ion-item>
+    <ion-item  class="error-message" *ngIf="!signupForm.controls.email.valid && signupForm.controls.email.dirty" no-lines>
+      <p>Please provide a valid email</p>
+    </ion-item>
+
+    <ion-item padding>
+      <ion-label floating>Password</ion-label>
+      <ion-input formControlName="password" type="password" [class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty"></ion-input>
+    </ion-item>
+    <ion-item no-l class="error-message" *ngIf="!signupForm.controls.password.valid && signupForm.controls.password.dirty" no-lines>
+      <p>Password has to be at least 6 chars</p>
+    </ion-item>
+    <button ion-button block type="submit" [disabled]="!signupForm.valid" >Submit</button>
+
+
+  </form>
+</ion-content>

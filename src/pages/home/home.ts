@@ -1,31 +1,32 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-//import { AngularFireModule } from 'angularfire2';
-import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from 'angularfire2/database';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FirebaseServiceProvider } from './../../providers/firebase-service/firebase-service';
+/**
+ * Generated class for the HomePage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
 
+@IonicPage()
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
 export class HomePage {
-  fbName: FirebaseObjectObservable<any>;
-  todos: FirebaseListObservable<any[]>;
 
-  constructor(public navCtrl: NavController, public db: AngularFireDatabase) {
-    this.fbName = this.db.object('/myname');
-    this.todos = this.db.list('/todos');
-
-  }
-  setName(newName) {
-    this.fbName.set({name:newName});
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider) {
   }
 
-  addTodo(newTodo){
-    this.todos.push({text: newTodo});
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad HomePage');
   }
 
-  removeTodo(key){
-    this.todos.remove(key);
-  }
+  logout()
+  {
+    this.firebaseService.logoutUser().then(()=>{
+      //this.navCtrl.setRoot('LoginPage');
+    })  ;
 
+  }
 }
