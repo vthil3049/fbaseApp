@@ -21,16 +21,30 @@
   </ion-navbar>
 
 </ion-header>
-
-
 <ion-content padding>
   <ion-list *ngFor="let list of shoppingLists | async" padding-top>
     <ion-list-header>
       <button ion-button item-left clear color="danger" icon-only (click)="removeList(list.$key)" *ngIf="editMode">
         <ion-icon name="remove-circle"></ion-icon>
       </button>
-      {{list.name}}
+      {{list.name}}      
+      <button ion-button item-left clear icon-only (click)="addItemToList(list.$key, list.name)" *ngIf="editMode">
+        <ion-icon name="add"></ion-icon>
+      </button>      
+      <button ion-button item-left clear icon-only (click)="shareList(list.$key, list.name)" *ngIf="editMode">
+        <ion-icon name="share"></ion-icon>
+      </button> 
     </ion-list-header>
+    <ion-item-sliding *ngFor="let shoppingItem of list.shoppingItems | async">
+      <ion-item>
+        {{shoppingItem.name}}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" icon-only (click)="removeItem(shoppingItem.$key, list.$key)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
   <ion-fab right bottom padding>
     <button ion-fab (click)="newList()">

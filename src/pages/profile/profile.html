@@ -6,13 +6,31 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>profilePage</ion-title>
+  <ion-navbar color='primary'>
+    <ion-title>Your Profile</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <h2 text-center>Invitations</h2>
+  <ion-list>
+    <ion-card *ngFor="let invitation of invitations | async">
+      <ion-card-header>{{invitation.listName}}</ion-card-header>
+      <ion-card-content>{{invitation.fromEmail}}</ion-card-content>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left clear (click)="acceptInvitation(invitation)">Accept
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button  icon-left clear (click)="discardInvitation(invitation.$key)">Discard
+          <ion-icon name="close"></ion-icon>
+        </button>
+        </ion-col>      
+      </ion-row>
+    </ion-card>
+  </ion-list>
 </ion-content>

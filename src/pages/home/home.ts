@@ -82,4 +82,77 @@ export class HomePage {
   removeList(id){
     this.firebaseService.removeList(id);
   }
+
+  addItemToList(listId, listName){
+     let prompt = this.alertCtrl.create({
+      title: 'Add new item for '+listName,
+      message: 'Enter the name of the item',
+      inputs: [
+        {
+          name: 'name',
+          type: 'text'
+        }
+      ],
+      buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+
+      },
+      {
+        text: 'Add item',
+        handler: data => {
+          //let lName = data.name;
+          this.firebaseService.addListItem(listId, data.name).then(data2 =>{
+            console.log('Added item '+ data.name );
+            this.presentToast('Added '+data.name);
+          })
+          .catch(err => {
+            this.presentToast('Error adding item '+err.message);
+          });
+        }
+      }
+    ]
+    });
+    prompt.present();
+  }
+
+  removeItem(itemId, listId){
+    this.firebaseService.removeShoppingItem(listId, itemId);
+  }
+
+  shareList(listId, listName){
+        let prompt = this.alertCtrl.create({
+      title: 'Share your list '+listName,
+      message: 'Enter the email of the person you want to share with',
+      inputs: [
+        {
+          name: 'email',
+          type: 'email'
+        }
+      ],
+      buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+
+      },
+      {
+        text: 'Share List',
+        handler: data => {
+          //let lName = data.name;
+          this.firebaseService.shareList(listId, listName, data.email).then(data2 =>{
+            //console.log('Shared list '+ data.email );
+            this.presentToast('Shared list with '+data.email);
+          })
+          .catch(err => {
+            this.presentToast('Error adding item '+err.message);
+          });
+        }
+      }
+    ]
+    });
+    prompt.present();
+  }
+
 }
