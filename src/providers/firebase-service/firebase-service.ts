@@ -103,11 +103,28 @@ export class FirebaseServiceProvider {
     let data = {
       [this.user.uid]: true
     }
-    return this.afd.object('/shoppingLists/'+invitation.listId).update({data});
+    return this.afd.object('/shoppingLists/' + invitation.listId).update( data);
   }
 
-  discardInvitation(inviteId){
+  discardInvitation(inviteId) {
     this.afd.list('/invitations').remove(inviteId);
   }
+
+  getSharedLists() {
+    return this.afd.list('/shoppingLists', {
+      query: {
+        orderByChild: this.user.uid,
+        equalTo: true
+      },
+    })
+      .map(lists => {
+        console.log(lists);
+        return lists.map(oneList => {
+          oneList.shoppingItems = this.afd.list('/shoppingLists/' + oneList.$key + '/items');
+          return oneList;
+        });
+      });
+  }
+
 }
 
